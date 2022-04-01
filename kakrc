@@ -42,5 +42,5 @@ plug "enricozb/tabs.kak" %{
   map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
   map global normal B ': enter-user-mode -lock tabs<ret>' -docstring 'tabs (lock)'
 }
-
+set-option global tabs_overlow "shrink"
 set-option -add global ui_options terminal_status_on_top=yes
