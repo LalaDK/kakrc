@@ -49,4 +49,9 @@ set-option -add global ui_options terminal_status_on_top=yes
 hook global BufSetOption filetype=vue %{
   set-option buffer formatcmd 'prettier --parser vue'
   set-option buffer lintcmd 'eslint --config .eslintrc.js --format unix --ext .vue'
+  define-command lintfix %{
+   nop %sh{
+    eslint --format unix --ext .vue --fix $kak_buffile
+   }
+  }
 }
