@@ -44,3 +44,9 @@ plug "enricozb/tabs.kak" %{
 }
 set-option global tabs_overlow "shrink"
 set-option -add global ui_options terminal_status_on_top=yes
+
+
+hook global BufSetOption filetype=vue %{
+  set-option buffer formatcmd 'prettier --parser vue'
+  set-option buffer lintcmd 'eslint --config .eslintrc.js --format unix --ext .vue'
+}
