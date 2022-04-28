@@ -20,12 +20,11 @@ plug "caksoylar/kakoune-smooth-scroll" config %{
 plug "gustavo-hms/luar" %{
       require-module luar
 }
-
 plug "ABuffSeagull/kakoune-vue"
 plug "insipx/kak-crosshairs"
-
+plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
 map global normal <c-p> ': fzf-mode<ret>'
-colorscheme "tomorrow-night"
+#colorscheme "tomorrow-night"
 set-option global tabstop 2
 set-option global indentwidth 2
 map global insert <tab> '<a-;><a-gt>'
@@ -55,3 +54,10 @@ hook global BufSetOption filetype=vue %{
    }
   }
 }
+
+plug "krornus/kakoune-toggle-map" %{
+      plug "krornus/kakoune-hlsearch" %{
+                toggle-map global normal <F3> hlsearch-on hlsearch-off
+      }
+}
+
