@@ -8,12 +8,19 @@ evaluate-commands %sh{
     printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
 }
 plug "andreyorst/plug.kak" noload
-plug "andreyorst/fzf.kak"
+plug "andreyorst/fzf.kak" config %{
+  map global normal <c-p> ': fzf-mode<ret>'
+} defer fzf-file %{
+  set-option global fzf_file_command 'rg' # 'ag', 'fd', or 'find'
+} defer fzf-grep %{
+  set-option global fzf_grep_command 'rg' # 'ag', or 'find'
+}
+
 plug "caksoylar/kakoune-smooth-scroll" config %{
   hook global WinCreate [^*].* %{
-          hook -once window WinDisplay .* %{
-                      smooth-scroll-enable
-          }
+    hook -once window WinDisplay .* %{
+      smooth-scroll-enable
+    }
   }
 }
 
@@ -23,8 +30,6 @@ plug "gustavo-hms/luar" %{
 plug "ABuffSeagull/kakoune-vue"
 plug "insipx/kak-crosshairs"
 plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
-map global normal <c-p> ': fzf-mode<ret>'
-#colorscheme "tomorrow-night"
 set-option global tabstop 2
 set-option global indentwidth 2
 map global insert <tab> '<a-;><a-gt>'
@@ -41,23 +46,21 @@ plug "enricozb/tabs.kak" %{
   map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
   map global normal B ': enter-user-mode -lock tabs<ret>' -docstring 'tabs (lock)'
 }
+plug "krornus/kakoune-toggle-map" %{
+  plug "krornus/kakoune-hlsearch" %{
+    toggle-map global normal <F3> hlsearch-on hlsearch-off
+  }
+}
 set-option global tabs_overlow "shrink"
 set-option -add global ui_options terminal_status_on_top=yes
 
-
-hook global BufSetOption filetype=vue %{
-  set-option buffer formatcmd 'prettier --parser vue'
-  set-option buffer lintcmd 'eslint --config .eslintrc.js --format unix --ext .vue'
-  define-command lintfix %{
-   nop %sh{
-    eslint --format unix --ext .vue --fix $kak_buffile
-   }
-  }
+hook global BufSetOption filetype=(vue|javascript) %{
+  set-option buffer lintcmd "npm exec eslint -- --config .eslintrc.json --format unix %val{buffile}"
+  set-option buffer formatcmd "TMP=$(mktemp);cp '%val{buffile}' $TMP;npm exec eslint -- --quiet --config .eslintrc.json --format unix --fix $TMP > /dev/null;cat $TMP"
 }
 
 plug "krornus/kakoune-toggle-map" %{
-      plug "krornus/kakoune-hlsearch" %{
-                toggle-map global normal <F3> hlsearch-on hlsearch-off
-      }
+  plug "krornus/kakoune-hlsearch" %{
+    toggle-map global normal <F3> hlsearch-on hlsearch-off
+  }
 }
-
