@@ -64,3 +64,8 @@ plug "krornus/kakoune-toggle-map" %{
     toggle-map global normal <F3> hlsearch-on hlsearch-off
   }
 }
+
+hook global WinSetOption filetype=(c|cpp) %{
+    clang-enable-autocomplete 
+    clang-enable-diagnostics
+}
