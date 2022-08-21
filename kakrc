@@ -1,5 +1,6 @@
 add-highlighter global/ number-lines
 add-highlighter global/ show-whitespaces
+
 evaluate-commands %sh{
   plugins="$kak_config/plugins"
   mkdir -p "$plugins"
@@ -25,10 +26,8 @@ plug "caksoylar/kakoune-smooth-scroll" config %{
 }
 
 plug "gustavo-hms/luar" %{
-      require-module luar
+  require-module luar
 }
-plug "ABuffSeagull/kakoune-vue"
-plug "insipx/kak-crosshairs"
 plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
 set-option global tabstop 2
 set-option global indentwidth 2
@@ -46,29 +45,8 @@ plug "enricozb/tabs.kak" %{
   map global normal b ': enter-user-mode tabs<ret>' -docstring 'tabs'
   map global normal B ': enter-user-mode -lock tabs<ret>' -docstring 'tabs (lock)'
 }
-plug "krornus/kakoune-toggle-map" %{
-  plug "krornus/kakoune-hlsearch" %{
-    toggle-map global normal <F3> hlsearch-on hlsearch-off
-  }
-}
-set-option global tabs_overlow "shrink"
-set-option -add global ui_options terminal_status_on_top=yes
-
-hook global BufSetOption filetype=(vue|javascript) %{
-  set-option buffer lintcmd "npm exec eslint -- --config .eslintrc.json --format unix %val{buffile}"
-  set-option buffer formatcmd "TMP=$(mktemp);cp '%val{buffile}' $TMP;npm exec eslint -- --quiet --config .eslintrc.json --format unix --fix $TMP > /dev/null;cat $TMP"
-}
-
-plug "krornus/kakoune-toggle-map" %{
-  plug "krornus/kakoune-hlsearch" %{
-    toggle-map global normal <F3> hlsearch-on hlsearch-off
-  }
-}
-
-hook global WinSetOption filetype=(c|cpp) %{
-    clang-enable-autocomplete 
-    clang-enable-diagnostics
-}
+#set-option global tabs_overlow "shrink"
+#set-option -add global ui_options terminal_status_on_top=yes
 
 plug "kak-lsp/kak-lsp" do %{
     cargo install --locked --force --path .
@@ -78,3 +56,7 @@ plug "kak-lsp/kak-lsp" do %{
 }
 
 lsp-enable
+lsp-auto-signature-help-enable
+lsp-auto-hover-insert-mode-enable
+#lsp-inlay-hints-enable
+
