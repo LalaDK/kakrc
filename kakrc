@@ -69,3 +69,12 @@ hook global WinSetOption filetype=(c|cpp) %{
     clang-enable-autocomplete 
     clang-enable-diagnostics
 }
+
+plug "kak-lsp/kak-lsp" do %{
+    cargo install --locked --force --path .
+    # optional: if you want to use specific language servers
+    mkdir -p ~/.config/kak-lsp
+    cp -n kak-lsp.toml ~/.config/kak-lsp/
+}
+
+lsp-enable
