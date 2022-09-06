@@ -25,14 +25,7 @@ plug "caksoylar/kakoune-smooth-scroll" config %{
   }
 }
 
-plug "gustavo-hms/luar" %{
-  require-module luar
-}
 plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
-set-option global tabstop 2
-set-option global indentwidth 2
-map global insert <tab> '<a-;><a-gt>'
-map global insert <s-tab> '<a-;><a-lt>'
 plug "enricozb/tabs.kak" %{
   set-option global modelinefmt_tabs '%val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}}'
   map global normal ^ q
@@ -55,7 +48,7 @@ plug "kak-lsp/kak-lsp" do %{
     cp -n kak-lsp.toml ~/.config/kak-lsp/
 }
 
-map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
+#map global user l %{:enter-user-mode lsp<ret>} -docstring "LSP mode"
 map global insert <tab> '<a-;>:try lsp-snippets-select-next-placeholders catch %{ execute-keys -with-hooks <lt>tab> }<ret>' -docstring 'Select next snippet placeholder'
 map global object a '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
 map global object <a-a> '<a-semicolon>lsp-object<ret>' -docstring 'LSP any symbol'
@@ -66,3 +59,8 @@ lsp-auto-signature-help-enable
 lsp-auto-hover-insert-mode-enable
 lsp-auto-hover-enable
 set global lsp_hover_anchor true
+
+set-option global tabstop 2
+set-option global indentwidth 2
+map global insert <tab> '<a-;><a-gt>'
+map global insert <s-tab> '<a-;><a-lt>'
