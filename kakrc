@@ -28,9 +28,15 @@ plug "caksoylar/kakoune-smooth-scroll" config %{
 plug "gustavo-hms/luar" %{
   require-module luar
 }
-plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
-set-option global tabstop 2
 set-option global indentwidth 2
+set-option global tabstop 2
+plug "andreyorst/smarttab.kak" defer smarttab %{
+  set-option global softtabstop 2
+  } config %{
+    hook global BufOpenFile .* expandtab
+    hook global BufNewFile  .* expandtab
+}
+plug "caksoylar/kakoune-mysticaltutor" theme %{ colorscheme mysticaltutor }
 map global insert <tab> '<a-;><a-gt>'
 map global insert <s-tab> '<a-;><a-lt>'
 plug "enricozb/tabs.kak" %{
